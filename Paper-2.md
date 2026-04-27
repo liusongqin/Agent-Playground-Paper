@@ -268,21 +268,21 @@ graph TD
 
 ```mermaid
 graph TD
-    subgraph 表现层(UI Rendering Layer)
+    subgraph "表现层"
         Sidebar[组件 Sidebar]
         Chat[组件 MessageList/Input]
         Panel[工具区 Workflow/Terminal]
         Canvas[Web Canvas 3D模型]
     end
 
-    subgraph 调度通信层(Controller / Middle Layer)
+    subgraph "调度通信层"
         ReactHooks(React Hooks / States)
         LLM[OpenAI Service API]
-        Python[Python aiohttp \ websockets]
+        Python[Python aiohttp / websockets]
         MCP[mcp.js / MCP协议适配]
     end
 
-    subgraph 基础设施层(Infra Layer)
+    subgraph "基础设施层"
         OS_PTY(系统终端 PTY)
         ADB(安卓 ADB 桥接)
         Store[(Local Storage/Files)]
