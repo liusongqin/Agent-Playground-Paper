@@ -86,14 +86,15 @@ graph LR
 ```mermaid
 mindmap
   root((React 19))
-    组件化
+    组件化架构
+      IDE编辑器模块
+      流程图可视化组件
+    核心运行机制
+      虚拟DOM
+      Diff算法优化
+    状态管理体系
       Context 状态穿透
-      Hooks 生命周期
-    虚拟DOM
-      Diff 算法
-    生态库支持
-      xterm.js
-      Three.js
+      Hooks 逻辑复用
 ```
 *图2-2 React特性生态映射*
 
