@@ -106,17 +106,17 @@ mindmap
 
 ```mermaid
 sequenceDiagram
-    participant Frontend
-    participant Python Backend 
-    participant PTY Terminal
-    Frontend->>Python Backend: 1. 发起 WebSocket 握手
-    Python Backend-->>Frontend: 2. 升级协议成功
-    Python Backend->>PTY Terminal: 3. 初始化子进程 /bin/bash
-    loop 全双工数据传输
-        Frontend->>Python Backend: 发送 shell 命令帧 (如 ls)
-        Python Backend->>PTY Terminal: 写入标准输入
-        PTY Terminal-->>Python Backend: 捕获标准输出 / 错误
-        Python Backend-->>Frontend: 广播终端日志信息
+    participant Frontend as 前端界面
+    participant Backend as Python后端
+    participant PTY as 系统终端/子进程
+    Frontend->>Backend: 1. 发起 WebSocket 握手请求
+    Backend-->>Frontend: 2. 协议升级成功，建立长连接
+    Backend->>PTY: 3. 初始化伪终端会话
+    loop 全双工实时数据传输
+        Frontend->>Backend: 4. 发送用户指令或Agent操作信号
+        Backend->>PTY: 5. 写入标准输入流
+        PTY-->>Backend: 6. 产生标准输出与错误流
+        Backend-->>Frontend: 7. 异步推送终端日志与执行结果
     end
 ```
 *图2-3 WebSocket前后端终端通信时序图*
