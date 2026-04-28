@@ -133,27 +133,24 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
-    participant User as 用户 (User)
+    participant User as 用户
     participant Agent as Agent引擎中枢
     participant LLM as 大语言模型底座
-    participant Tools as 本地终端 / ADB底层系统
+    participant Tools as 本地终端与ADB系统
 
-    User->>Agent: 发送意图任务(e.g., "查找所有占用端口号的Node进程并关闭")
-    Agent->>LLM: 注入系统级Prompt并转发当前会话上下文
+    User->>Agent: 发送意图任务指令
+    Agent->>LLM: 注入系统提示词并转发上下文
     
-    loop ReAct 执行循环 (思考-行动-观察)
-        LLM-->>Agent: 输出Thought: "需要先列出所有端口"，触发Action: `netstat` 工具
-        Agent->>Tools: 路由到Terminal接口执行 `netstat -ano | findstr LISTENING`
-        Tools-->>Agent: 返回标准输出(观察结果 Observation)
-        
-        Agent->>LLM: 抛回环境反馈(Observation日志)
-        LLM-->>Agent: 输出Thought: "找到目标PID，现执行kill行动"，触发Action: `taskkill`
-        Agent->>Tools: 执行 `taskkill /F /PID XXXX`
-        Tools-->>Agent: 返回操作成功结果
+    loop ReAct 执行循环
+        LLM-->>Agent: 输出思考路径，触发行动指令
+        Agent->>Tools: 路由至具体接口执行操作
+        Tools-->>Agent: 返回执行结果与日志
+        Agent->>LLM: 抛回环境反馈数据
+        LLM-->>Agent: 输出下一步思考或最终结论
     end
     
-    LLM-->>Agent: 逻辑推断终结，输出最终回应
-    Agent->>User: 显示最终处理结果
+    LLM-->>Agent: 输出最终回应
+    Agent->>User: 展示任务处理结果
 ```
 *图2-4 智能体(Agent)的 ReAct 认知及行动交互序列图*
 
