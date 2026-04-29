@@ -1,37 +1,41 @@
 ```mermaid
 graph TB
-    subgraph ViewLayer [视图层 View Layer]
-        direction LR
-        V1[Web浏览器] --> V2[React前端框架]
-        V2 --> V3[UI组件库]
-        V2 --> V4[可视化渲染引擎]
+    subgraph 视图层
+        A1[Web浏览器] --> A2[React组件库]
+        A2 --> A3[Monaco Editor]
+        A2 --> A4[Xterm终端]
+        A2 --> A5[Ant Design UI]
     end
 
-    subgraph CommLayer [通信层 Communication Layer]
-        direction LR
-        C1[HTTP/HTTPS请求] --> C2[WebSocket长连接]
+    subgraph 通信层
+        B1[WebSocket连接] 
+        B2[HTTP/HTTPS请求]
     end
 
-    subgraph ServiceLayer [业务服务层 Service Layer]
-        direction TB
-        S1[用户与权限服务]
-        S2[会话与记忆管理]
-        S3[智能体编排引擎]
-        S4[LLM推理调度服务]
-        
-        S1 --- S2
-        S3 --- S4
+    subgraph 控制层
+        C1[API网关] --> C2[会话管理]
+        C1 --> C3[权限校验]
     end
 
-    subgraph DataLayer [数据与资源层 Data Resource Layer]
-        direction LR
-        D1[(LocalStorage)]
-        D2[(文件系统)]
-        D3[(外部大模型API)]
+    subgraph 业务层
+        D1[LLM调度服务]
+        D2[Agent执行引擎]
+        D3[推演与生成服务]
+        D4[辅助工具服务]
     end
 
-    ViewLayer --> CommLayer
-    CommLayer --> ServiceLayer
-    ServiceLayer --> DataLayer
+    subgraph 持久层
+        E1[LocalStorage缓存]
+        E2[文件系统]
+    end
+
+    A2 -- 用户操作/指令 --> B2
+    A4 -- 终端I/O流 --> B1
+    B2 -- 请求转发 --> C1
+    B1 -- 双向通信 --> C1
+    C1 -- 业务调用 --> D1
+    C1 -- 任务分发 --> D2
+    D2 -- 状态读写 --> E1
+    D1 -- 数据持久化 --> E2
 ```
 
