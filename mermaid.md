@@ -1,4 +1,4 @@
-'''mermaid
+```mermaid
 graph TB
     subgraph 视图层
         A1[Web浏览器] --> A2[React组件库]
@@ -37,4 +37,5 @@ graph TB
     C1 -- 任务分发 --> D2
     D2 -- 状态读写 --> E1
     D1 -- 数据持久化 --> E2
-'''
+```
+
